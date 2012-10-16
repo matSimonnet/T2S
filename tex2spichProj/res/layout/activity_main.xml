@@ -49,21 +49,24 @@
     >
 
     <SeekBar
-        android:id="@+id/seekBar1"        
+        android:id="@+id/seekBarSpeed"        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="25" 
+        android:importantForAccessibility="no"
+        android:progress="5"
         />
     <SeekBar
-        android:id="@+id/seekBar2"        
+        android:id="@+id/seekBarBearing"        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="25"
         />
     <SeekBar
-        android:id="@+id/seekBar3"        
+        android:id="@+id/seekBarNothing"
+        android:max="5"        
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

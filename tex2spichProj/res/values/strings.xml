@@ -11,5 +11,6 @@
     <string name="longitude"/>
     <string name="test"/>
     <integer-array name="speedAuto"></integer-array>
+    <string name="speedTreshold"/>
 
 </resources>
