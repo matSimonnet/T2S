@@ -28,12 +28,12 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 	
 	protected static final int RESULT_SPEECH = 1;
 	
-	private TextView textView3 = null;
-	private TextView textView4 = null;
-	private TextView textView5 = null;	
-	private Button button3 = null;
-	private Button button4 = null;
-	private ImageButton button5 = null;
+	private TextView textViewSpeed = null;
+	private TextView textViewBearing = null;
+	private TextView textViewAuto = null;	
+	private Button buttonSpeed = null;
+	private Button buttonBearing = null;
+	private ImageButton buttonReco = null;
 	
 	private SeekBar speedBar = null;
 	@SuppressWarnings("unused")
@@ -67,23 +67,23 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
         setContentView(R.layout.activity_main);
     
     //TextView creation
-    textView3 = new TextView(this);
-    textView3 = (TextView) findViewById(R.id.speedView);
-    textView4 = new TextView(this);
-    textView4 = (TextView) findViewById(R.id.bearing);
-    textView5 = new TextView(this);
-    textView5 = (TextView) findViewById(R.id.speak);
-    textView5.setText("Seuil vitesse auto : " + Double.valueOf(speedTreshold).toString());
+    textViewSpeed = new TextView(this);
+    textViewSpeed = (TextView) findViewById(R.id.speedView);
+    textViewBearing = new TextView(this);
+    textViewBearing = (TextView) findViewById(R.id.bearing);
+    textViewAuto = new TextView(this);
+    textViewAuto = (TextView) findViewById(R.id.speak);
+    textViewAuto.setText("mode auto par défault");
     
     //SpeedBar
     speedBar = (SeekBar) findViewById(R.id.seekBarSpeed);
     speedBar.setOnSeekBarChangeListener(this);
-    speedBar.setContentDescription("Régalge seuil vitesse auto");
+    speedBar.setContentDescription("Réglage seuil vitesse auto");
     
     //TimeBar 
     timeBar = (SeekBar) findViewById(R.id.seekBarTime);
     timeBar.setOnSeekBarChangeListener(this);
-    speedBar.setContentDescription("Régalge time Auto");
+    speedBar.setContentDescription("Réglage seuil temps vitesse auto");
     
     // edit text creation
     //editText = new EditText(this);
@@ -125,29 +125,28 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 	tts = new TextToSpeech(this, onInitListener);
 	
 	// button creation
-    button3 = new Button(this);
-    button3 = (Button) findViewById(R.id.buttonSpeed);
-	button4 = new Button(this);
-    button4 = (Button) findViewById(R.id.buttonBearing);
-	button5 = new ImageButton(this);
-    button5 = (ImageButton) findViewById(R.id.buttonSpeak);
+    buttonSpeed= new Button(this);
+    buttonSpeed = (Button) findViewById(R.id.buttonSpeed);
+	buttonBearing = new Button(this);
+    buttonBearing = (Button) findViewById(R.id.buttonBearing);
+	buttonReco= new ImageButton(this);
+    buttonReco = (ImageButton) findViewById(R.id.buttonSpeak);
 
     // OnClickListener creation
     View.OnClickListener onclickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if (v== button3){
+			if (v== buttonSpeed){
 				tts.speak("vitesse : " + speed, TextToSpeech.QUEUE_FLUSH, null);
 			}
-			if (v== button4){
+			if (v== buttonBearing){
 				tts.speak("cap : " + bearing, TextToSpeech.QUEUE_FLUSH, null);
 			}
-			if (v== button5){
+			if (v== buttonReco){
 				 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 	             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "fr-FR");	 
 	                try {
 	                    startActivityForResult(intent, RESULT_SPEECH);
-	                    //textView5.setText("");
 	                } catch (ActivityNotFoundException a) {
 	                    Toast.makeText(getApplicationContext(),"Pas de reconnaissance",Toast.LENGTH_SHORT).show();
 	                }//end of catch
@@ -156,9 +155,9 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 		}; //end of new View.LocationListener	
 	
 	// button activation
-	button3.setOnClickListener(onclickListener);
-	button4.setOnClickListener(onclickListener);
-	button5.setOnClickListener(onclickListener);
+	buttonSpeed.setOnClickListener(onclickListener);
+	buttonBearing.setOnClickListener(onclickListener);
+	buttonReco.setOnClickListener(onclickListener);
 	
     }//end of oncreate
 
@@ -174,22 +173,18 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
   protected void onPause() {
     super.onPause();
     lm.removeUpdates(ll);
-    //tts.speak("pause", tts.QUEUE_FLUSH, null);
   }
   
   /* Remove the locationlistener updates when Activity is stopped */
   @Override
   protected void onStop() {
     super.onStop();
-    //tts.speak("stop", tts.QUEUE_FLUSH, null);
-    tts.stop();
   }
 	
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         
-		//a revoir mais pas trop
         switch (requestCode) {
         	case RESULT_SPEECH: {
         		if (resultCode == RESULT_OK && null != data) {
@@ -239,15 +234,15 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 					)
 					
 				)   {
-			tts.stop();
+			//tts.stop();
 			tts.speak("vitesse : " + speed + "noeuds", TextToSpeech.QUEUE_FLUSH, null);
 			speedLastAuto = speedAuto;
 			speedBefore = new Date();
 			}
 			
 			//displaying value
-			textView3.setText(speed);
-			textView4.setText(bearing);    
+			textViewSpeed.setText(speed);
+			textViewSpeed.setText(bearing);    
 		}
 
 		@Override
@@ -272,12 +267,12 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 			boolean fromUser) {
 		if (seekBar.equals(speedBar)){
 			speedTreshold = (double) progress/10;
-			textView5.setText("Seuil vitesse auto : " + Double.valueOf(speedTreshold).toString());
+			textViewAuto.setText("Seuil vitesse auto : " + Double.valueOf(speedTreshold).toString());
 			seekBar.setContentDescription(Double.valueOf(speedTreshold).toString() + "noeuds");
 		}
 		else if (seekBar.equals(timeBar)){
-			speedTimeTreshold = (long) progress;
-			textView5.setText("Seuil de temps : " + Double.valueOf(speedTimeTreshold).toString());
+			speedTimeTreshold = progress;
+			textViewAuto.setText("Seuil de temps : " + Double.valueOf(speedTimeTreshold).toString());
 			seekBar.setContentDescription(Double.valueOf((int)speedTimeTreshold).toString() + "secondes");
 		}
 		
@@ -285,9 +280,7 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
-		seekBar.setContentDescription("Seuil vitesse auto : " + Double.valueOf(speedTreshold).toString());
-		
-		
+		//seekBar.setContentDescription("Seuil vitesse auto : " + Double.valueOf(speedTreshold).toString());	
 	}
 
 	@Override
