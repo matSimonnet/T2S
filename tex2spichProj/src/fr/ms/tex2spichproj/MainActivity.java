@@ -16,6 +16,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -34,6 +35,9 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 	private Button buttonSpeed = null;
 	private Button buttonBearing = null;
 	private ImageButton buttonReco = null;
+	
+	private CheckBox speedAutoCheckBox = null;
+	private CheckBox bearingAutoCheckBox = null;
 	
 	private SeekBar speedBar = null;
 	@SuppressWarnings("unused")
@@ -75,6 +79,10 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
     textViewAuto = (TextView) findViewById(R.id.speak);
     textViewAuto.setText("mode auto par défault");
     
+    //CheckBox
+    speedAutoCheckBox = (CheckBox) findViewById(R.id.speedAutoCheckBox);
+    bearingAutoCheckBox = (CheckBox) findViewById(R.id.bearingAutoCheckBox);
+        
     //SpeedBar
     speedBar = (SeekBar) findViewById(R.id.seekBarSpeed);
     speedBar.setOnSeekBarChangeListener(this);
@@ -83,7 +91,7 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
     //TimeBar 
     timeBar = (SeekBar) findViewById(R.id.seekBarTime);
     timeBar.setOnSeekBarChangeListener(this);
-    speedBar.setContentDescription("Réglage seuil temps vitesse auto");
+    timeBar.setContentDescription("Réglage seuil temps vitesse auto");
     
     // edit text creation
     //editText = new EditText(this);
@@ -220,29 +228,20 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 			speed = String.valueOf(arrondiSpeed(loc.getSpeed()*(1.94)));
 			bearing = String.valueOf((int)loc.getBearing());
 			
-			speedAuto = arrondiSpeed(loc.getSpeed()*(1.94));
-			speedNow = new Date();
-			//Log.i("new Date() : now.getTime", " = " + SpeedNow.getTime());
-			
-			if (   	(
-						   ( speedAuto < speedLastAuto - speedTreshold ) 
-						|| ( speedAuto > speedLastAuto + speedTreshold )
-					)
-					&&
-					(
-					  (speedNow.getTime() - speedBefore.getTime()) > speedTimeTreshold*1000
-					)
-					
-				)   {
-			//tts.stop();
-			tts.speak("vitesse : " + speed + "noeuds", TextToSpeech.QUEUE_FLUSH, null);
-			speedLastAuto = speedAuto;
-			speedBefore = new Date();
-			}
+			if (speedAutoCheckBox.isChecked()){
+				speedAuto = arrondiSpeed(loc.getSpeed()*(1.94));
+				speedNow = new Date();
+				if 	((( speedAuto < speedLastAuto - speedTreshold )|| ( speedAuto > speedLastAuto + speedTreshold ))
+				 &&	((speedNow.getTime() - speedBefore.getTime()) > speedTimeTreshold*1000)){
+				tts.speak("vitesse : " + speed + "noeuds", TextToSpeech.QUEUE_FLUSH, null);
+				speedLastAuto = speedAuto;
+				speedBefore = new Date();
+				}
+			}//end of if speedAutoCheck...
 			
 			//displaying value
 			textViewSpeed.setText(speed);
-			textViewSpeed.setText(bearing);    
+			textViewBearing.setText(bearing);    
 		}
 
 		@Override
