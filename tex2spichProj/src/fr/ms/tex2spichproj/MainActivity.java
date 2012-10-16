@@ -36,6 +36,9 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 	private ImageButton button5 = null;
 	
 	private SeekBar speedBar = null;
+	@SuppressWarnings("unused")
+	private SeekBar bearingBar = null;
+	private SeekBar timeBar = null; 
 	
 	private TextToSpeech tts = null;
 	
@@ -77,6 +80,10 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
     speedBar.setOnSeekBarChangeListener(this);
     speedBar.setContentDescription("Régalge seuil vitesse auto");
     
+    //TimeBar 
+    timeBar = (SeekBar) findViewById(R.id.seekBarTime);
+    timeBar.setOnSeekBarChangeListener(this);
+    speedBar.setContentDescription("Régalge time Auto");
     
     // edit text creation
     //editText = new EditText(this);
@@ -263,9 +270,16 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser) {
-		speedTreshold = (double) progress/10;
-		textView5.setText("Seuil vitesse auto : " + Double.valueOf(speedTreshold).toString());
-		seekBar.setContentDescription(Double.valueOf(speedTreshold).toString() + "noeuds");
+		if (seekBar.equals(speedBar)){
+			speedTreshold = (double) progress/10;
+			textView5.setText("Seuil vitesse auto : " + Double.valueOf(speedTreshold).toString());
+			seekBar.setContentDescription(Double.valueOf(speedTreshold).toString() + "noeuds");
+		}
+		else if (seekBar.equals(timeBar)){
+			speedTimeTreshold = (long) progress;
+			textView5.setText("Seuil de temps : " + Double.valueOf(speedTimeTreshold).toString());
+			seekBar.setContentDescription(Double.valueOf((int)speedTimeTreshold).toString() + "secondes");
+		}
 		
 	}
 
@@ -279,7 +293,7 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		//textView5.setContentDescription("On stop Seuil vitesse auto : " + Double.valueOf(speedTreshold).toString());
-		tts.speak(" Le Seuil de la vitesse auto est réglé à : " + Double.valueOf(speedTreshold).toString(), TextToSpeech.QUEUE_ADD, null);
+		//tts.speak(" Le Seuil de la vitesse auto est réglé à : " + Double.valueOf(speedTreshold).toString(), TextToSpeech.QUEUE_ADD, null);
 	}
  
 }//end of Activity

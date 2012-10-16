@@ -27,8 +27,8 @@ public final class R {
         public static final int linearLayout2=0x7f080008;
         public static final int menu_settings=0x7f08000c;
         public static final int seekBarBearing=0x7f080006;
-        public static final int seekBarNothing=0x7f080007;
         public static final int seekBarSpeed=0x7f080005;
+        public static final int seekBarTime=0x7f080007;
         public static final int speak=0x7f080003;
         public static final int speedView=0x7f080001;
     }

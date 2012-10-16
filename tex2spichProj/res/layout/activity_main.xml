@@ -49,12 +49,13 @@
     >
 
     <SeekBar
-        android:id="@+id/seekBarSpeed"        
+        android:id="@+id/seekBarSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="25" 
         android:importantForAccessibility="no"
+        android:max="100"
         android:progress="5"
         />
     <SeekBar
@@ -65,12 +66,13 @@
         android:layout_weight="25"
         />
     <SeekBar
-        android:id="@+id/seekBarNothing"
-        android:max="5"        
+        android:id="@+id/seekBarTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="25"
+        android:max="30"
+        android:progress="5"
         />
 
     
