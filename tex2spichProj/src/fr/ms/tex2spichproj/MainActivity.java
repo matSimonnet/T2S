@@ -27,40 +27,28 @@ public class MainActivity extends Activity {
 	
 	protected static final int RESULT_SPEECH = 1;
 	
-	TextView textView1 = null;
-	TextView textView2 = null;
-	TextView textView3 = null;
-	TextView textView4 = null;
-	TextView textView5 = null;
+	private TextView textView3 = null;
+	private TextView textView4 = null;
+	private TextView textView5 = null;
 	
-	EditText editText = null;
-	TextToSpeech tts = null;
+	private TextToSpeech tts = null;
 	
-	Button button1 = null;
-	Button button2 = null;
-	Button button3 = null;
-	Button button4 = null;
-	ImageButton button5 = null;
+	private Button button3 = null;
+	private Button button4 = null;
+	private ImageButton button5 = null;
 	
 	private LocationManager lm = null;
-	LocationListener ll = null;
-	Location loc = null;
-	Location point1 = null;
-	Location point2 = null;
-	
-	String bearing = "pas de satellite";
-	String speed = "pas de satellite";
-	String latitude = "pas de satellite";
-	String longitude = "pas de satellite";
-	String provider = "pas de satellite";
-	String test = "pas de test";
-	
-	double speedAuto = 0;
-	double speedLastAuto = 0;
-	double speedTreshold = 0.1; 
-	long speedTimeTreshold = 5;
-	Date speedNow = null;
-	Date speedBefore = null;
+	private LocationListener ll = null;
+	private String bearing = "pas de satellite";
+	private String speed = "pas de satellite";
+	private String latitude = "pas de satellite";
+	private String longitude = "pas de satellite";
+	private double speedAuto = 0;
+	private double speedLastAuto = 0;
+	private double speedTreshold = 0.1; 
+	private long speedTimeTreshold = 5;
+	private Date speedNow = null;
+	private Date speedBefore = null;
 	
 	
 	@Override
