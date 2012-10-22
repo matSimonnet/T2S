@@ -37,6 +37,7 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 	private ImageButton buttonReco = null;
 	
 	private CheckBox speedAutoCheckBox = null;
+	@SuppressWarnings("unused")
 	private CheckBox bearingAutoCheckBox = null;
 	
 	private SeekBar speedBar = null;
@@ -69,7 +70,7 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
         
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    
+        
     //TextView creation
     textViewSpeed = new TextView(this);
     textViewSpeed = (TextView) findViewById(R.id.speedView);
@@ -169,6 +170,9 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
 	
     }//end of oncreate
 
+	
+
+	
   @Override
   protected void onResume() {
     super.onResume();
@@ -187,7 +191,15 @@ public class MainActivity extends Activity implements OnSeekBarChangeListener{
   @Override
   protected void onStop() {
     super.onStop();
+	tts.shutdown();
   }
+  
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		lm.removeUpdates(ll);
+		tts.shutdown();
+	}
 	
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
